@@ -43,6 +43,23 @@ public class Controlador implements Initializable {
 
     @FXML
     void abridPanelAdministracion(ActionEvent event) {
+        repository.callLogin = repository.serviceLogin.getUser(new LoginRequest(txtLogin.getText(), txtPassword.getText()));
+        encolaLogin();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        establecerIconos();
+        repository = new RepositoryUsers();
+    }
+    private void establecerIconos(){
+        imgAdmin.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/login.png")));
+        imgPassword.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/password.png")));
+        imgAdminPrincipal.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/administradorPrincipal.png")));
+    }
+
+    public void abrirVenanaAdministrador(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("vista/adminCarreras.fxml"));
             Parent root = loader.load();
@@ -51,25 +68,13 @@ public class Controlador implements Initializable {
             stage.setScene(new Scene(root));
             stage.setTitle("Administracion de Carreras");
             stage.show();
+
+            //Cierra la ventana login
+            Stage s = (Stage) this.txtLogin.getScene().getWindow();
+            s.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*
-        repository.serviceLogin.getUser(new LoginRequest(txtLogin.getText(),txtPassword.getText()));
-        encolaLogin();
-         */
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        establecerIconos();
-        repository = new RepositoryUsers();
-    }
-    private void establecerIconos(){
-        imgAdmin.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/login.png")));
-        imgPassword.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/password.png")));
-        imgAdminPrincipal.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/administradorPrincipal.png")));
     }
 
     public void encolaLogin(){
@@ -93,11 +98,7 @@ public class Controlador implements Initializable {
                     System.out.println("Respuesta LECTURA: " + response.body());
                     if (response.isSuccessful()) {
                         if (response.body().getUser().getRole().equals("admin")) {
-                            Alert alertaLeer = new Alert(Alert.AlertType.CONFIRMATION);
-                            alertaLeer.setTitle("Exito");
-                            alertaLeer.setHeaderText(response.body().getMessage());
-                            alertaLeer.setContentText("Código: " + response.code());
-                            alertaLeer.showAndWait();
+                            abrirVenanaAdministrador();
                         }else {
                             Alert alertaLeer = new Alert(Alert.AlertType.WARNING);
                             alertaLeer.setTitle("Error");
