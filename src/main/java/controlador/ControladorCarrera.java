@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -48,6 +49,14 @@ public class ControladorCarrera implements Initializable {
     @FXML
     private RadioButton optTrailRunning;
 
+    @FXML
+    private HBox hboxAddCarrera;
+
+    @FXML
+    private HBox hboxCerrar;
+
+    @FXML
+    private HBox hboxUsers;
 
 
 
@@ -58,7 +67,7 @@ public class ControladorCarrera implements Initializable {
     }
     private void establecerIconos(){
         imgLogo.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/logoApp.png")));
-        imgAddCarrera.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/añadir.png")));
+        imgAddCarrera.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/anadir.png")));
         imgCerrar.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/cerrar-sesion.png")));
         imgUsers.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/login.png")));
     }
