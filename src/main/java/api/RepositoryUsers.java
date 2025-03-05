@@ -21,5 +21,5 @@ public class RepositoryUsers {
 
     public ServiceLogin serviceLogin = retrofit.create(ServiceLogin.class);
 
-    public Call<UserLogin> callLogin;
+    public Call<UserLogin>callLogin;
 }
