@@ -1,30 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControladorAdminCarreras">
-   <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorCarreras">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="770.0" style="-fx-background-color: #EFEFEF;">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
          <children>
-            <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" />
-            <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="81.0" text="CREAR" />
-            <Button mnemonicParsing="false" text="ADMIN" />
-            <Button mnemonicParsing="false" text="CERRAR" />
+            <VBox prefHeight="400.0" prefWidth="286.0" style="-fx-background-color: #F3F5F9;">
+               <children>
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="9.0" prefWidth="130.0" spacing="5.0" style="-fx-background-color: green;">
+                     <children>
+                        <ImageView fx:id="imgLogo" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label text="MultiSports">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Button maxHeight="1.0" minHeight="1.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="149.0" style="-fx-background-color: #999999;">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
+                     <children>
+                        <ImageView fx:id="imgUsers" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-font-size: 13;" text="Users" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
+                     <children>
+                        <ImageView fx:id="imgAddCarrera" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-font-size: 13;" text="Añadir Carrera" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
+                     <children>
+                        <ImageView fx:id="imgCerrar" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label style="-fx-font-size: 13;" text="Cerrar" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </VBox>
+            <HBox prefHeight="360.0" prefWidth="642.0">
+               <children>
+                  <VBox prefHeight="270.0" prefWidth="396.0">
+                     <children>
+                        <Label prefHeight="36.0" prefWidth="65.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="CARRERAS" />
+                        <ListView fx:id="lstCarreras" prefHeight="327.0" prefWidth="337.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox prefHeight="270.0" prefWidth="183.0" style="-fx-background-color: #F3F5F9;">
+                     <children>
+                        <Label prefHeight="36.0" prefWidth="119.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="FILTRAR CARRERAS" />
+                        <Button maxHeight="1.0" minHeight="1.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="149.0" style="-fx-background-color: #999999;">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <RadioButton fx:id="optTodas" mnemonicParsing="false" text="Todas">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="optRunning" mnemonicParsing="false" text="Running">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="optTrailRunning" mnemonicParsing="false" text="Trail Running">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="optCiclismo" mnemonicParsing="false" text="Ciclismo" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="15.0" top="35.0" />
+                     </HBox.margin>
+                     <effect>
+                        <DropShadow height="30.0" radius="14.5" width="30.0">
+                           <color>
+                              <Color red="0.2526315748691559" green="0.2414035052061081" blue="0.2414035052061081" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
+               </HBox.margin>
+            </HBox>
          </children>
       </HBox>
-   </top>
-   <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-   </right>
-   <center>
-      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
-   <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </bottom>
-</BorderPane>
+   </children>
+</VBox>
