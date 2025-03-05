@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RepositoryUsers {
-    String baseUrl = "http://localhost:3000/api/users/";
+    String baseUrl = "http://192.168.50.143:3000/api/users/";
     Gson gson = new GsonBuilder()
             .setLenient()
             .create();
@@ -21,5 +21,5 @@ public class RepositoryUsers {
 
     public ServiceLogin serviceLogin = retrofit.create(ServiceLogin.class);
 
-    public Call<UserLogin> callLogin;
+    public Call<UserLogin>callLogin;
 }
