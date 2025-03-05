@@ -1,5 +1,6 @@
 package controlador;
 
+import api.RepositoryCarreras;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,13 +19,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modelo.Carrera;
+import modelo.Carreras;
+import modelo.UserLogin;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ControladorCarrera implements Initializable {
+    RepositoryCarreras repository = new RepositoryCarreras();
+
     @FXML
     private ImageView imgAddCarrera, imgCerrar, imgLogo, imgUsers;
 
@@ -38,7 +47,7 @@ public class ControladorCarrera implements Initializable {
     private HBox hboxAddCarrera, hboxCerrar, hboxUsers;
 
     private ToggleGroup toggleGroup;
-    private ObservableList<Carrera> carreras;
+    private ObservableList<Carrera> carreras = FXCollections.observableArrayList();
     private ObservableList<Carrera> carrerasFiltradas;
 
     @Override
@@ -46,13 +55,11 @@ public class ControladorCarrera implements Initializable {
         establecerIconos();
         configurarToggleGroup();
         configurarEventosMouse();
-        //configurarEventos();
+        configurarEventos();
 
         // Crear las carreras
-        carreras = FXCollections.observableArrayList(
-                new Carrera("Maratón de Primavera", "Parque Central", "2025-05-15", "Running"),
-                new Carrera("Vuelta Ciclista", "Montaña Alta", "2025-06-20", "Ciclismo")
-        );
+        this.repository.callLeerCarreras = this.repository.serviceLeerCarreras.obtenerCarreras();
+        encolaLeerCarreras();
 
         // Inicializamos carrerasFiltradas
         carrerasFiltradas = FXCollections.observableArrayList(carreras);
@@ -177,43 +184,19 @@ public class ControladorCarrera implements Initializable {
         configurarEfectoHover(hboxCerrar);
     }
 
-    /*private void configurarEventos() {
+    private void configurarEventos() {
         hboxAddCarrera.setOnMouseClicked(event -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmación");
-            alert.setHeaderText("¿Estás seguro que quieres salir?");
-            alert.setContentText("Serás redirigido a la pantalla de inicio de sesión.");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                cambiarVentana("login.fxml", event);
-            }
+            cambiarVentana("addCarrera.fxml",event,"Añadir Carrera");
         });
 
         hboxUsers.setOnMouseClicked(event -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmación");
-            alert.setHeaderText("¿Estás seguro que quieres salir?");
-            alert.setContentText("Serás redirigido a la pantalla de inicio de sesión.");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                cambiarVentana("login.fxml", event);
-            }
+            cambiarVentana("adminUsers.fxml", event, "Administracion Usuarios");  // Llamamos a cambiarVentana con el archivo users.fxml
         });
 
         hboxCerrar.setOnMouseClicked(event -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmación");
-            alert.setHeaderText("¿Estás seguro que quieres salir?");
-            alert.setContentText("Serás redirigido a la pantalla de inicio de sesión.");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                cambiarVentana("login.fxml", event);
-            }
+            cambiarVentana("administracion.fxml", event,"Log In Administrador");
         });
-    }*/
+    }
 
     private void actualizarFiltro() {
         String filtroSeleccionado;
@@ -221,11 +204,11 @@ public class ControladorCarrera implements Initializable {
         if (optTodas.isSelected()) {
             filtroSeleccionado = "Todas";
         } else if (optRunning.isSelected()) {
-            filtroSeleccionado = "Running";
+            filtroSeleccionado = "running";
         } else if (optTrailRunning.isSelected()) {
-            filtroSeleccionado = "Trail Running";
+            filtroSeleccionado = "trailRunning";
         } else if (optCiclismo.isSelected()) {
-            filtroSeleccionado = "Ciclismo";
+            filtroSeleccionado = "cycling";
         } else {
             filtroSeleccionado = "Todas";  // Valor por defecto
         }
@@ -237,7 +220,7 @@ public class ControladorCarrera implements Initializable {
             carrerasFiltradas.setAll(carreras); // Mostrar todas las carreras
         } else {
             carrerasFiltradas.setAll(
-                    carreras.filtered(carrera -> carrera.getTipo().equals(filtroFinal))  // Usamos la variable final
+                    carreras.filtered(carrera -> carrera.getSport().equals(filtroFinal))  // Usamos la variable final
             );
         }
     }
@@ -248,15 +231,66 @@ public class ControladorCarrera implements Initializable {
         hbox.setOnMouseExited(event -> hbox.setStyle("-fx-background-color: transparent;"));
     }
 
-    /*private void cambiarVentana(String fxml, MouseEvent event) {
+    private void cambiarVentana(String fxml, MouseEvent event, String titulo) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("/vista/" + fxml));
+            // Cargar el archivo FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/" + fxml));
             Scene scene = new Scene(loader.load());
+
+            // Obtener la ventana actual
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setTitle(titulo);
+            // Cambiar la escena de la ventana actual
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Manejo de errores si no se puede cargar el FXML
         }
-    }*/
+    }
+
+    public void encolaLeerCarreras() {
+        repository.callLeerCarreras.enqueue(new Callback<Carreras>() {
+            /**
+             * Para errores del tipo: Network Error :: timeout
+             */
+            @Override
+            public void onFailure(Call<Carreras> call, Throwable t) {
+                System.out.println("Network Error :: " + t.getLocalizedMessage());
+            }
+
+            /**
+             * La respuesta del servidor
+             */
+            @Override
+            public void onResponse(Call<Carreras> call, Response<Carreras> response) {
+                Platform.runLater(() -> {
+                    System.out.println("Respuesta LECTURA " + response);
+                    System.out.println("Respuesta LECTURA (Estado HTTP): " + response.message());
+                    System.out.println("Respuesta LECTURA: " + response.body());
+
+                    if (response.isSuccessful()) {
+                        // Print and check if we get a list of races
+                        System.out.println(response.body().getRaces());
+
+                        if (response.body().getRaces() != null) {
+                            // Clear the list and add new races
+                            carreras.clear();
+                            carreras.addAll(response.body().getRaces());
+
+                            // Update the filtered list (this triggers ListView update)
+                            carrerasFiltradas.setAll(carreras);  // Ensure the filtered list is updated as well
+                        } else {
+                            System.out.println("No races available in the response body.");
+                        }
+                    } else {
+                        Alert alertaLeer = new Alert(Alert.AlertType.ERROR);
+                        alertaLeer.setTitle("Datos incorrectos");
+                        alertaLeer.setHeaderText("Usuario o contraseña incorrectos");
+                        alertaLeer.setContentText("Código error: " + response.code());
+                        alertaLeer.showAndWait();
+                    }
+                });
+            }
+        });
+    }
 }

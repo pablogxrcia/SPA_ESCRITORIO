@@ -85,7 +85,7 @@
                   <VBox prefHeight="392.0" prefWidth="478.0">
                      <children>
                         <Label prefHeight="36.0" prefWidth="65.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="CARRERAS" />
-                        <ListView fx:id="lstCarreras" prefHeight="327.0" prefWidth="337.0" />
+                        <ListView fx:id="lstCarreras" prefHeight="356.0" prefWidth="474.0" />
                      </children>
                      <HBox.margin>
                         <Insets right="10.0" />
