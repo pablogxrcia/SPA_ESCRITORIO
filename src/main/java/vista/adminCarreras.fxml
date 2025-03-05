@@ -21,7 +21,7 @@
          <children>
             <VBox prefHeight="400.0" prefWidth="286.0" style="-fx-background-color: #F3F5F9;">
                <children>
-                  <HBox alignment="BOTTOM_LEFT" prefHeight="9.0" prefWidth="130.0" spacing="5.0" style="-fx-background-color: green;">
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="9.0" prefWidth="130.0" spacing="5.0">
                      <children>
                         <ImageView fx:id="imgLogo" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                         <Label text="MultiSports">
@@ -39,27 +39,27 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
+                  <HBox fx:id="hboxUsers" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
                      <children>
-                        <ImageView fx:id="imgUsers" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imgUsers" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                         <Label style="-fx-font-size: 13;" text="Users" />
                      </children>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="20.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
+                  <HBox fx:id="hboxAddCarrera" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
                      <children>
-                        <ImageView fx:id="imgAddCarrera" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imgAddCarrera" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                         <Label style="-fx-font-size: 13;" text="Añadir Carrera" />
                      </children>
                      <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="20.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
+                  <HBox fx:id="hboxCerrar" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
                      <children>
-                        <ImageView fx:id="imgCerrar" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imgCerrar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                         <Label style="-fx-font-size: 13;" text="Cerrar" />
                      </children>
                   </HBox>
