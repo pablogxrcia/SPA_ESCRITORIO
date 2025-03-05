@@ -87,9 +87,16 @@ public class ControladorCarrera implements Initializable {
 
                     // Crear los botones con imágenes
                     Button btnEditar = new Button();
+                    btnEditar.setTooltip(new Tooltip("Editar"));
+
                     Button btnEliminar = new Button();
+                    btnEliminar.setTooltip(new Tooltip("Eliminar"));
+
                     Button btnDescargar = new Button();
+                    btnDescargar.setTooltip(new Tooltip("Descargar"));
+
                     Button btnSubir = new Button();
+                    btnSubir.setTooltip(new Tooltip("Subir"));
 
                     // Asignar las imágenes a los botones
                     ImageView imgEditar = new ImageView(new Image(getClass().getResourceAsStream("/images/editar.png")));
