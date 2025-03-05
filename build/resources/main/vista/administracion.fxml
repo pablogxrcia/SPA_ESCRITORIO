@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="365.0" spacing="5.0" style="-fx-background-color: #B4C7B2;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.Controlador">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="443.0" prefWidth="365.0" spacing="5.0" style="-fx-background-color: #B4C7B2;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.Controlador">
    <children>
       <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="65.0">
          <children>
@@ -22,7 +21,7 @@
             <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="300.0" spacing="15.0">
                <children>
                   <ImageView fx:id="imgAdmin" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
-                  <TextField fx:id="txtLogin" prefHeight="26.0" prefWidth="188.0" promptText="Login" />
+                  <TextField fx:id="txtLogin" prefHeight="26.0" prefWidth="188.0" promptText="Email" />
                </children>
                <VBox.margin>
                   <Insets />

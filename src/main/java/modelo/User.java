@@ -1,0 +1,67 @@
+package modelo;
+
+public class User {
+    String id;
+    String email;
+    String name;
+    String role;
+    String avatar;
+    int age;
+
+    public User(String id, String email, String name, String role, String avatar, int age) {
+        this.id=id;
+        this.email=email;
+        this.name=name;
+        this.role=role;
+        this.avatar=avatar;
+        this.age=age;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}

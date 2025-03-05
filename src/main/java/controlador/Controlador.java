@@ -1,16 +1,26 @@
 package controlador;
 
+import api.RepositoryUsers;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import modelo.LoginRequest;
+import modelo.UserLogin;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controlador implements Initializable {
+    RepositoryUsers repository;
+
     @FXML
     private ImageView imgAdmin;
 
@@ -28,16 +38,63 @@ public class Controlador implements Initializable {
 
     @FXML
     void abridPanelAdministracion(ActionEvent event) {
-
+        repository.serviceLogin.getUser(new LoginRequest(txtLogin.getText(),txtPassword.getText()));
+        encolaLogin();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         establecerIconos();
+        repository = new RepositoryUsers();
     }
     private void establecerIconos(){
         imgAdmin.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/login.png")));
         imgPassword.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/password.png")));
         imgAdminPrincipal.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/administradorPrincipal.png")));
+    }
+
+    public void encolaLogin(){
+        repository.callLogin.enqueue(new Callback<UserLogin>() {
+            /**
+             * Para errores del tipo: Network Error :: timeout
+             */
+            @Override
+            public void onFailure(Call<UserLogin> call, Throwable t) {
+                System.out.println("Network Error :: " + t.getLocalizedMessage());
+            }
+
+            /**
+             * La respuesta del servidor
+             */
+            @Override
+            public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
+                Platform.runLater(() -> {
+                    System.out.println("Respuesta LECTURA " + response);
+                    System.out.println("Respuesta LECTURA (Estado HTTP): " + response.message());
+                    System.out.println("Respuesta LECTURA: " + response.body());
+                    if (response.isSuccessful()) {
+                        if (response.body().getUser().getRole().equals("admin")) {
+                            Alert alertaLeer = new Alert(Alert.AlertType.CONFIRMATION);
+                            alertaLeer.setTitle("Exito");
+                            alertaLeer.setHeaderText(response.body().getMessage());
+                            alertaLeer.setContentText("Código: " + response.code());
+                            alertaLeer.showAndWait();
+                        }else {
+                            Alert alertaLeer = new Alert(Alert.AlertType.WARNING);
+                            alertaLeer.setTitle("Error");
+                            alertaLeer.setHeaderText("El usuario no tiene permisos de administrador");
+                            alertaLeer.setContentText("Código: " + response.code());
+                            alertaLeer.showAndWait();
+                        }
+                    } else {
+                        Alert alertaLeer = new Alert(Alert.AlertType.ERROR);
+                        alertaLeer.setTitle("Datos incorrectos");
+                        alertaLeer.setHeaderText("Usuario o contraseña incorrectos");
+                        alertaLeer.setContentText("Código error: " + response.code());
+                        alertaLeer.showAndWait();
+                    }
+                });
+            }
+        });
     }
 }
