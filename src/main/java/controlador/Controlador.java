@@ -51,7 +51,6 @@ public class Controlador implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         establecerIconos();
         repository = new RepositoryUsers();
     }
@@ -61,7 +60,7 @@ public class Controlador implements Initializable {
         imgAdminPrincipal.setImage(new Image(getClass().getClassLoader().getResourceAsStream("images/administradorPrincipal.png")));
     }
 
-    public void abrirVenanaAdministrador(){
+    public void abrirVentanaAdministrador(Cookie cookie){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("vista/adminCarreras.fxml"));
             Parent root = loader.load();
@@ -105,7 +104,7 @@ public class Controlador implements Initializable {
                             for (Cookie cookie : cookies) {
                                 System.out.println("Cookie: " + cookie.name() + " = " + cookie.value());
                             }
-                            abrirVenanaAdministrador();
+                            abrirVentanaAdministrador(cookies.get(0));
                         }else {
                             Alert alertaLeer = new Alert(Alert.AlertType.WARNING);
                             alertaLeer.setTitle("Error");

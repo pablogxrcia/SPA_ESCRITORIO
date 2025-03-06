@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import modelo.Carrera;
 import modelo.Carreras;
 import modelo.UserLogin;
+import okhttp3.Cookie;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +34,7 @@ import java.util.ResourceBundle;
 
 public class ControladorCarrera implements Initializable {
     RepositoryCarreras repository = new RepositoryCarreras();
+    Cookie cookie;
 
     @FXML
     private ImageView imgAddCarrera, imgCerrar, imgLogo, imgUsers;
