@@ -1,6 +1,7 @@
 package controlador;
 
 import api.RepositoryCarreras;
+import api.ServiceBorrarCarrera;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +26,8 @@ import modelo.UserLogin;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,12 +54,14 @@ public class ControladorCarrera implements Initializable {
     private ObservableList<Carrera> carreras = FXCollections.observableArrayList();
     private ObservableList<Carrera> carrerasFiltradas;
     private String authToken; // Campo para almacenar el token
+    private ServiceBorrarCarrera serviceBorrarCarrera;
 
     // Método para establecer el token
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
         System.out.println("Token recibido en ControladorAddCarrera: " + authToken); // Verificar que el token se recibe
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -162,12 +167,47 @@ public class ControladorCarrera implements Initializable {
     private void editarCarrera(Carrera carrera) {
         System.out.println("Editando carrera: " + carrera.getName());
         // Aquí puedes agregar la lógica para editar la carrera
+        try {
+            FXMLLoader fxmlLoader=FXMLLoader.load(getClass().getResource("/vista/addCarrera.fxml"));
+            Parent root=fxmlLoader.load();
+
+            ControladorEditCarrera cac=fxmlLoader.getController();
+            if(cac!=null){
+                cac.setId(carrera.get_id());
+            }
+
+            Scene sc=new Scene(root);
+            Stage st=new Stage();
+            st.setScene(sc);
+            st.show();
+        } catch (IOException e) {
+            System.out.println("no se ha podido cargar la ventana");
+        }
+
     }
+
 
     private void eliminarCarrera(Carrera carrera) {
         System.out.println("Eliminando carrera: " + carrera.getName());
         // Aquí puedes agregar la lógica para eliminar la carrera
-        carreras.remove(carrera);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.50.143:3000/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        serviceBorrarCarrera = retrofit.create(ServiceBorrarCarrera.class);
+        serviceBorrarCarrera.borrarCarrera(carrera.get_id()).enqueue(new Callback<Carreras>() {
+            @Override
+            public void onResponse(Call<Carreras> call, Response<Carreras> response) {
+                System.out.println("Carrera borrada: " + carrera.getName());
+            }
+
+            @Override
+            public void onFailure(Call<Carreras> call, Throwable t) {
+                Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, "Error al borrar la carrera: " + t.getMessage()).showAndWait());
+            }
+
+        });
     }
 
     private void descargarCarrera(Carrera carrera) {
@@ -274,6 +314,7 @@ public class ControladorCarrera implements Initializable {
             // Obtener el controlador de la ventana de añadir carrera
             ControladorAddCarrera controladorAddCarrera = loader.getController();
             controladorAddCarrera.setAuthToken(authToken); // Pasar el token al controlador
+            controladorAddCarrera.setObservable(carreras,lstCarreras); // Pasar la lista de carreras al controlador
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
