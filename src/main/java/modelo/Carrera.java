@@ -28,6 +28,20 @@ public class Carrera {
         this.created = created;
     }
 
+    public Carrera(String name, String sport, String formattedDate, String location, double distance, int maxParticipants, int unevenness, String tour, String qualifyingTime) {
+        this.name = name;
+        this.sport = sport;
+        this.date = formattedDate;
+        this.location = location;
+        this.distance = distance;
+        this.maxParticipants = maxParticipants;
+        this.unevenness = unevenness;
+        this.tour = tour;
+        this.qualifyingTime = qualifyingTime;
+        this.status = "Pendiente";
+        this.created = formattedDate;
+    }
+
     public String get_id() {
         return _id;
     }
