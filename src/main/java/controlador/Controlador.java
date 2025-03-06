@@ -15,12 +15,14 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import modelo.LoginRequest;
 import modelo.UserLogin;
+import okhttp3.Cookie;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controlador implements Initializable {
@@ -98,6 +100,11 @@ public class Controlador implements Initializable {
                     System.out.println("Respuesta LECTURA: " + response.body());
                     if (response.isSuccessful()) {
                         if (response.body().getUser().getRole().equals("admin")) {
+                            // Obtener cookies
+                            List<Cookie> cookies = repository.getCookies();
+                            for (Cookie cookie : cookies) {
+                                System.out.println("Cookie: " + cookie.name() + " = " + cookie.value());
+                            }
                             abrirVenanaAdministrador();
                         }else {
                             Alert alertaLeer = new Alert(Alert.AlertType.WARNING);
