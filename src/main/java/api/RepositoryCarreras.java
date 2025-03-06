@@ -18,6 +18,12 @@ public class RepositoryCarreras {
             .build();
 
     public ServiceLeerCarreras serviceLeerCarreras = retrofit.create(ServiceLeerCarreras.class);
+    public ServiceLeerRunning serviceLeerRunning = retrofit.create(ServiceLeerRunning.class);
+    public ServiceLeerTrailRunning serviceLeerTrailRunning = retrofit.create(ServiceLeerTrailRunning.class);
+    public ServiceLeerCycling serviceLeerCycling = retrofit.create(ServiceLeerCycling.class);
 
     public Call<Carreras> callLeerCarreras;
+    public Call<Carreras> callLeerRunning;
+    public Call<Carreras> callLeerTrailRunning;
+    public Call<Carreras> callLeerCycling;
 }

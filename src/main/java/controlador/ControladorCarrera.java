@@ -216,12 +216,23 @@ public class ControladorCarrera implements Initializable {
         final String filtroFinal = filtroSeleccionado;  // Declaramos como final
 
         // Filtrar las carreras según la opción seleccionada
-        if (filtroFinal.equals("Todas")) {
-            carrerasFiltradas.setAll(carreras); // Mostrar todas las carreras
-        } else {
-            carrerasFiltradas.setAll(
-                    carreras.filtered(carrera -> carrera.getSport().equals(filtroFinal))  // Usamos la variable final
-            );
+        switch (filtroSeleccionado) {
+            case "running" -> {
+                repository.callLeerRunning = repository.serviceLeerRunning.obtenerCarreras();
+                encolaLeerRunning();
+            }
+            case "trailRunning" -> {
+                repository.callLeerTrailRunning = repository.serviceLeerTrailRunning.obtenerCarreras();
+                encolaLeerTrailRunning();
+            }
+            case "cycling" -> {
+                repository.callLeerCycling = repository.serviceLeerCycling.obtenerCarreras();
+                encolaLeerCycling();
+            }
+            case "Todas" -> {
+                repository.callLeerCarreras = repository.serviceLeerCarreras.obtenerCarreras();
+                encolaLeerCarreras();
+            }
         }
     }
 
@@ -250,6 +261,144 @@ public class ControladorCarrera implements Initializable {
 
     public void encolaLeerCarreras() {
         repository.callLeerCarreras.enqueue(new Callback<Carreras>() {
+            /**
+             * Para errores del tipo: Network Error :: timeout
+             */
+            @Override
+            public void onFailure(Call<Carreras> call, Throwable t) {
+                System.out.println("Network Error :: " + t.getLocalizedMessage());
+            }
+
+            /**
+             * La respuesta del servidor
+             */
+            @Override
+            public void onResponse(Call<Carreras> call, Response<Carreras> response) {
+                Platform.runLater(() -> {
+                    System.out.println("Respuesta LECTURA " + response);
+                    System.out.println("Respuesta LECTURA (Estado HTTP): " + response.message());
+                    System.out.println("Respuesta LECTURA: " + response.body());
+
+                    if (response.isSuccessful()) {
+                        // Print and check if we get a list of races
+                        System.out.println(response.body().getRaces());
+
+                        if (response.body().getRaces() != null) {
+                            // Clear the list and add new races
+                            carreras.clear();
+                            carreras.addAll(response.body().getRaces());
+
+                            // Update the filtered list (this triggers ListView update)
+                            carrerasFiltradas.setAll(carreras);  // Ensure the filtered list is updated as well
+                        } else {
+                            System.out.println("No races available in the response body.");
+                        }
+                    } else {
+                        Alert alertaLeer = new Alert(Alert.AlertType.ERROR);
+                        alertaLeer.setTitle("Datos incorrectos");
+                        alertaLeer.setHeaderText("Usuario o contraseña incorrectos");
+                        alertaLeer.setContentText("Código error: " + response.code());
+                        alertaLeer.showAndWait();
+                    }
+                });
+            }
+        });
+    }
+
+    public void encolaLeerRunning() {
+        repository.callLeerRunning.enqueue(new Callback<Carreras>() {
+            /**
+             * Para errores del tipo: Network Error :: timeout
+             */
+            @Override
+            public void onFailure(Call<Carreras> call, Throwable t) {
+                System.out.println("Network Error :: " + t.getLocalizedMessage());
+            }
+
+            /**
+             * La respuesta del servidor
+             */
+            @Override
+            public void onResponse(Call<Carreras> call, Response<Carreras> response) {
+                Platform.runLater(() -> {
+                    System.out.println("Respuesta LECTURA " + response);
+                    System.out.println("Respuesta LECTURA (Estado HTTP): " + response.message());
+                    System.out.println("Respuesta LECTURA: " + response.body());
+
+                    if (response.isSuccessful()) {
+                        // Print and check if we get a list of races
+                        System.out.println(response.body().getRaces());
+
+                        if (response.body().getRaces() != null) {
+                            // Clear the list and add new races
+                            carreras.clear();
+                            carreras.addAll(response.body().getRaces());
+
+                            // Update the filtered list (this triggers ListView update)
+                            carrerasFiltradas.setAll(carreras);  // Ensure the filtered list is updated as well
+                        } else {
+                            System.out.println("No races available in the response body.");
+                        }
+                    } else {
+                        Alert alertaLeer = new Alert(Alert.AlertType.ERROR);
+                        alertaLeer.setTitle("Datos incorrectos");
+                        alertaLeer.setHeaderText("Usuario o contraseña incorrectos");
+                        alertaLeer.setContentText("Código error: " + response.code());
+                        alertaLeer.showAndWait();
+                    }
+                });
+            }
+        });
+    }
+
+    public void encolaLeerTrailRunning() {
+        repository.callLeerTrailRunning.enqueue(new Callback<Carreras>() {
+            /**
+             * Para errores del tipo: Network Error :: timeout
+             */
+            @Override
+            public void onFailure(Call<Carreras> call, Throwable t) {
+                System.out.println("Network Error :: " + t.getLocalizedMessage());
+            }
+
+            /**
+             * La respuesta del servidor
+             */
+            @Override
+            public void onResponse(Call<Carreras> call, Response<Carreras> response) {
+                Platform.runLater(() -> {
+                    System.out.println("Respuesta LECTURA " + response);
+                    System.out.println("Respuesta LECTURA (Estado HTTP): " + response.message());
+                    System.out.println("Respuesta LECTURA: " + response.body());
+
+                    if (response.isSuccessful()) {
+                        // Print and check if we get a list of races
+                        System.out.println(response.body().getRaces());
+
+                        if (response.body().getRaces() != null) {
+                            // Clear the list and add new races
+                            carreras.clear();
+                            carreras.addAll(response.body().getRaces());
+
+                            // Update the filtered list (this triggers ListView update)
+                            carrerasFiltradas.setAll(carreras);  // Ensure the filtered list is updated as well
+                        } else {
+                            System.out.println("No races available in the response body.");
+                        }
+                    } else {
+                        Alert alertaLeer = new Alert(Alert.AlertType.ERROR);
+                        alertaLeer.setTitle("Datos incorrectos");
+                        alertaLeer.setHeaderText("Usuario o contraseña incorrectos");
+                        alertaLeer.setContentText("Código error: " + response.code());
+                        alertaLeer.showAndWait();
+                    }
+                });
+            }
+        });
+    }
+
+    public void encolaLeerCycling() {
+        repository.callLeerCycling.enqueue(new Callback<Carreras>() {
             /**
              * Para errores del tipo: Network Error :: timeout
              */
