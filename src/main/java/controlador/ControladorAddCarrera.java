@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import modelo.Carrera;
 import retrofit2.Call;
@@ -39,6 +38,13 @@ public class ControladorAddCarrera implements Initializable {
     @FXML private Button createRaceButton;
 
     private ServiceCrearCarrera raceApi;
+    private String authToken; // Campo para almacenar el token
+
+    // Método para establecer el token
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+        System.out.println("Token recibido en ControladorAddCarrera: " + authToken); // Verificar que el token se recibe
+    }
 
     @FXML
     private void handleCreateRace(ActionEvent event) {
@@ -53,21 +59,58 @@ public class ControladorAddCarrera implements Initializable {
             String tour = tourField.getText();
             String qualifyingTime = qualifyingTimeField.getText();
 
+            // Validación de campos requeridos
             if (name.isEmpty() || sport == null || date == null || location.isEmpty() || tour.isEmpty() || qualifyingTime.isEmpty()) {
                 showAlert("Error", "Todos los campos son requeridos");
                 return;
             }
 
-            String formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE) + "T09:00:00Z";
+            // Validación de valores numéricos
+            if (distance <= 0 || maxParticipants <= 0 || unevenness <= 0) {
+                showAlert("Error", "Los valores numéricos deben ser positivos");
+                return;
+            }
+
+            // Validación de formato de tiempo de calificación
+            if (!isValidTimeFormat(qualifyingTime)) {
+                showAlert("Error", "Formato de tiempo de calificación inválido. Use HH:mm:ss");
+                return;
+            }
+
+            // Validación de deporte
+            if (!isValidSport(sport)) {
+                showAlert("Error", "Tipo de deporte inválido. Opciones válidas: running, trailRunning, cycling");
+                return;
+            }
+
+            // Formatear la fecha sin la hora ni la zona horaria
+            String formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE); // Formato: "2025-05-15"
 
             Carrera race = new Carrera(name, sport, formattedDate, location, distance, maxParticipants, unevenness, tour, qualifyingTime);
 
-            raceApi.createRace(race).enqueue(new Callback<Carrera>() {
+            // Depuración: Mostrar los datos que se enviarán al servidor
+            System.out.println("Datos enviados al servidor:");
+            System.out.println("Nombre: " + name);
+            System.out.println("Deporte: " + sport);
+            System.out.println("Fecha: " + formattedDate);
+            System.out.println("Ubicación: " + location);
+            System.out.println("Distancia: " + distance);
+            System.out.println("Máximo de participantes: " + maxParticipants);
+            System.out.println("Desnivel: " + unevenness);
+            System.out.println("Recorrido: " + tour);
+            System.out.println("Tiempo de calificación: " + qualifyingTime);
+
+            // Incluir el token en la solicitud
+            Call<Carrera> call = raceApi.createRace("Bearer " + authToken, race); // Suponiendo que el token es de tipo Bearer
+            call.enqueue(new Callback<Carrera>() {
                 @Override
                 public void onResponse(Call<Carrera> call, Response<Carrera> response) {
                     Platform.runLater(() -> {
                         if (response.isSuccessful()) {
                             showAlert("Éxito", "Carrera creada exitosamente.");
+                            // Cierra la ventana actual después de mostrar la alerta
+                            Stage stage = (Stage) nameField.getScene().getWindow();
+                            stage.close();
                         } else {
                             showAlert("Error", "Error al crear la carrera. Código: " + response.code());
                         }
@@ -86,21 +129,9 @@ public class ControladorAddCarrera implements Initializable {
 
     @FXML
     private void handleCancel(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("vista/adminCarreras.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Administracion de Carreras");
-            stage.show();
-
-            //Cierra la ventana login
-            Stage s = (Stage) this.nameField.getScene().getWindow();
-            s.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Cierra la ventana actual
+        Stage stage = (Stage) nameField.getScene().getWindow();
+        stage.close();
     }
 
     private void showAlert(String title, String message) {
@@ -109,6 +140,14 @@ public class ControladorAddCarrera implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private boolean isValidTimeFormat(String time) {
+        return time.matches("^([0-1]?\\d|2[0-3]):([0-5]?\\d):([0-5]?\\d)$");
+    }
+
+    private boolean isValidSport(String sport) {
+        return sport.equals("running") || sport.equals("trailRunning") || sport.equals("cycling");
     }
 
     @Override

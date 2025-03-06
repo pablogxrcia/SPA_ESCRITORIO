@@ -2,8 +2,6 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import modelo.LoginRequest;
-import modelo.User;
 import modelo.UserLogin;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;

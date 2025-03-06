@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -51,6 +52,13 @@ public class ControladorCarrera implements Initializable {
     private ToggleGroup toggleGroup;
     private ObservableList<Carrera> carreras = FXCollections.observableArrayList();
     private ObservableList<Carrera> carrerasFiltradas;
+    private String authToken; // Campo para almacenar el token
+
+    // Método para establecer el token
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+        System.out.println("Token recibido en ControladorAddCarrera: " + authToken); // Verificar que el token se recibe
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -188,7 +196,7 @@ public class ControladorCarrera implements Initializable {
 
     private void configurarEventos() {
         hboxAddCarrera.setOnMouseClicked(event -> {
-            cambiarVentana("addCarrera.fxml",event,"Añadir Carrera");
+            abrirVentanaAnadirCarrera();
         });
 
         hboxUsers.setOnMouseClicked(event -> {
@@ -258,6 +266,23 @@ public class ControladorCarrera implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();  // Manejo de errores si no se puede cargar el FXML
+        }
+    }
+    private void abrirVentanaAnadirCarrera() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("vista/addCarrera.fxml"));
+            Parent root = loader.load();
+
+            // Obtener el controlador de la ventana de añadir carrera
+            ControladorAddCarrera controladorAddCarrera = loader.getController();
+            controladorAddCarrera.setAuthToken(authToken); // Pasar el token al controlador
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Añadir Carrera");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
