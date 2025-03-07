@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="581.0" prefWidth="705.0" spacing="30.0" style="-fx-background-color: #FDF7ED;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorAddCarrera">
+<VBox prefHeight="581.0" prefWidth="705.0" spacing="30.0" style="-fx-background-color: #FDF7ED;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorAddCarrera">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -45,7 +45,7 @@
                <!-- Campo Fecha -->
                <HBox alignment="CENTER_RIGHT" spacing="10">
                   <Label text="Fecha:" />
-                  <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="268.0" />
+                  <DatePicker fx:id="datePicker" editable="false" prefHeight="26.0" prefWidth="268.0" />
                </HBox>
             
                <!-- Campo Ubicación -->
@@ -98,7 +98,7 @@
                <Insets left="89.0" />
             </HBox.margin>
          </Label>
-         <Button mnemonicParsing="false" onAction="#anadirArchivoGpx" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #9B9D79; -fx-text-fill: #FDF7ED;" text="Buscar archivo" />
+         <Button mnemonicParsing="false" onAction="#buscarArchivoGpx" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #9B9D79; -fx-text-fill: #FDF7ED;" text="Buscar archivo" />
       </children>
    </HBox>
 

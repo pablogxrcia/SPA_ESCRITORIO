@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorCarrera">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorCarrera">
    <children>
       <HBox prefHeight="432.0" prefWidth="809.0" style="-fx-background-color: #EFEFEF;">
          <VBox.margin>
@@ -42,7 +42,7 @@
                   <HBox fx:id="hboxUsers" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
                      <children>
                         <ImageView fx:id="imgUsers" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label style="-fx-font-size: 13;" text="Users" />
+                        <Label style="-fx-font-size: 13;" text="Usuarios" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="20.0" />

@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorCarrera">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorCarrera">
    <children>
       <HBox prefHeight="432.0" prefWidth="809.0" style="-fx-background-color: #EFEFEF;">
          <VBox.margin>
@@ -42,7 +42,7 @@
                   <HBox fx:id="hboxUsers" alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="120.0" spacing="10.0">
                      <children>
                         <ImageView fx:id="imgUsers" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label style="-fx-font-size: 13;" text="Users" />
+                        <Label style="-fx-font-size: 13;" text="Usuarios" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="20.0" />
@@ -84,8 +84,8 @@
                <children>
                   <VBox prefHeight="392.0" prefWidth="478.0">
                      <children>
-                        <Label prefHeight="36.0" prefWidth="65.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="CARRERAS" />
-                        <ListView fx:id="lstCarreras" prefHeight="356.0" prefWidth="474.0" />
+                        <Label prefHeight="36.0" prefWidth="65.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="USUARIOS" />
+                        <ListView fx:id="lstUsuarios" prefHeight="356.0" prefWidth="474.0" />
                      </children>
                      <HBox.margin>
                         <Insets right="10.0" />
@@ -93,7 +93,7 @@
                   </VBox>
                   <VBox prefHeight="357.0" prefWidth="147.0" style="-fx-background-color: #F3F5F9;">
                      <children>
-                        <Label prefHeight="36.0" prefWidth="119.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="FILTRAR CARRERAS" />
+                        <Label prefHeight="36.0" prefWidth="119.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="FILTRAR USUARIOS" />
                         <Button maxHeight="1.0" minHeight="1.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="149.0" style="-fx-background-color: #999999;">
                            <VBox.margin>
                               <Insets bottom="20.0" />
