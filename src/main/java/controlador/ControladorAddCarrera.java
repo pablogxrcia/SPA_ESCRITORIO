@@ -56,6 +56,11 @@ public class ControladorAddCarrera implements Initializable {
     }
 
     @FXML
+    void añadirArchivoGpx(ActionEvent event) {
+
+    }
+
+    @FXML
     private void handleCreateRace(ActionEvent event) {
         try {
             String name = nameField.getText();
