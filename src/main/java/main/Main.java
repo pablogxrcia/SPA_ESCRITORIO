@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/vista/adminCarreras.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/vista/administracion.fxml"));
         primaryStage.setTitle("Log In Administrator");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
