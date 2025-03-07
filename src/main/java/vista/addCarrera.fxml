@@ -11,77 +11,106 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="526.0" prefWidth="605.0" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="controlador.ControladorAddCarrera">
+<VBox prefHeight="581.0" prefWidth="705.0" spacing="30.0" style="-fx-background-color: #FDF7ED;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorAddCarrera">
    <padding>
-      <Insets bottom="10" left="10" right="10" top="10" />
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
-
-   <!-- Campo Nombre -->
-   <HBox spacing="10">
-      <Label text="Nombre:" />
-      <TextField fx:id="nameField" />
-   </HBox>
-
-   <!-- Campo Deporte -->
-   <HBox spacing="10">
-      <Label text="Deporte:" />
-      <ComboBox fx:id="sportComboBox">
-         <items>
-            <FXCollections fx:factory="observableArrayList">
-               <String fx:value="running" />
-               <String fx:value="trailRunning" />
-               <String fx:value="cycling" />
-            </FXCollections>
-         </items>
-      </ComboBox>
-   </HBox>
-
-   <!-- Campo Fecha -->
-   <HBox spacing="10">
-      <Label text="Fecha:" />
-      <DatePicker fx:id="datePicker" />
-   </HBox>
-
-   <!-- Campo Ubicación -->
-   <HBox spacing="10">
-      <Label text="Ubicación:" />
-      <TextField fx:id="locationField" />
-   </HBox>
-
-   <!-- Campo Distancia -->
-   <HBox spacing="10">
-      <Label text="Distancia (km):" />
-      <TextField fx:id="distanceField" />
-   </HBox>
-
-   <!-- Campo Máx Participantes -->
-   <HBox spacing="10">
-      <Label text="Máx Participantes:" />
-      <TextField fx:id="maxParticipantsField" />
-   </HBox>
-
-   <!-- Campo Desnivel -->
-   <HBox spacing="10">
-      <Label text="Desnivel (m):" />
-      <TextField fx:id="unevennessField" />
+   <HBox prefHeight="100.0" prefWidth="200.0">
+      <children>
+         <VBox prefHeight="148.0" prefWidth="365.0" spacing="15.0">
+            <children>
+            
+               <!-- Campo Nombre -->
+               <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <Label text="Nombre:" />
+                  <TextField fx:id="nameField" prefHeight="26.0" prefWidth="268.0" />
+               </HBox>
+            
+               <!-- Campo Deporte -->
+               <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <Label text="Deporte:" />
+                  <ComboBox fx:id="sportComboBox" prefHeight="26.0" prefWidth="268.0">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="running" />
+                           <String fx:value="trailRunning" />
+                           <String fx:value="cycling" />
+                        </FXCollections>
+                     </items>
+                  </ComboBox>
+               </HBox>
+            
+               <!-- Campo Fecha -->
+               <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <Label text="Fecha:" />
+                  <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="268.0" />
+               </HBox>
+            
+               <!-- Campo Ubicación -->
+               <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <Label text="Ubicación:" />
+                  <TextField fx:id="locationField" prefHeight="26.0" prefWidth="268.0" />
+               </HBox>
+            </children>
+         </VBox>
+         <VBox prefHeight="148.0" prefWidth="365.0" spacing="15.0">
+            <children>
+            
+               <!-- Campo Distancia -->
+               <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <Label text="Distancia (km):" />
+                  <TextField fx:id="distanceField" prefWidth="180.0" />
+               </HBox>
+            
+               <!-- Campo Máx Participantes -->
+               <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <Label text="Máx Participantes:" />
+                  <TextField fx:id="maxParticipantsField" prefWidth="180.0" />
+               </HBox>
+            
+               <!-- Campo Desnivel -->
+               <HBox alignment="CENTER_RIGHT" spacing="10">
+                  <Label text="Desnivel (m):" />
+                  <TextField fx:id="unevennessField" prefWidth="180.0" />
+               </HBox>
+            </children>
+         </VBox>
+      </children>
    </HBox>
 
    <!-- Campo Recorrido -->
    <HBox spacing="10">
       <Label text="Recorrido:" />
-      <TextArea fx:id="tourField" />
+      <TextArea fx:id="tourField" prefHeight="182.0" prefWidth="599.0" />
    </HBox>
 
    <!-- Campo Tiempo de Clasificación -->
-   <HBox spacing="10">
+   <HBox alignment="CENTER_LEFT" spacing="10">
       <Label text="Tiempo de Clasificación (HH:mm:ss):" />
       <TextField fx:id="qualifyingTimeField" />
    </HBox>
+   <HBox alignment="CENTER_LEFT" spacing="10">
+      <children>
+         <Label text="Añadir archivo gpx:">
+            <HBox.margin>
+               <Insets left="89.0" />
+            </HBox.margin>
+         </Label>
+         <Button mnemonicParsing="false" onAction="#añadirArchivoGpx" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: #9B9D79; -fx-text-fill: #FDF7ED;" text="Buscar archivo" />
+      </children>
+   </HBox>
 
    <!-- Botones -->
-   <HBox spacing="10">
-      <Button fx:id="createRaceButton" onAction="#handleCreateRace" text="Añadir" />
-      <Button onAction="#handleCancel" text="Cancelar" />
+   <HBox alignment="CENTER_RIGHT" spacing="10">
+      <Button fx:id="createRaceButton" defaultButton="true" onAction="#handleCreateRace" prefHeight="28.0" prefWidth="73.0" style="-fx-background-color: #8EAC93; -fx-text-fill: #FDF7ED;" text="Añadir">
+         <font>
+            <Font size="13.0" />
+         </font></Button>
+      <Button cancelButton="true" onAction="#handleCancel" prefHeight="28.0" prefWidth="76.0" style="-fx-background-color: #fb9fa0;" text="Cancelar">
+         <font>
+            <Font size="13.0" />
+         </font></Button>
    </HBox>
 </VBox>
