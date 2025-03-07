@@ -12,14 +12,14 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorCarrera">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.ControladorCarrera">
    <children>
       <HBox prefHeight="432.0" prefWidth="809.0" style="-fx-background-color: #EFEFEF;">
          <VBox.margin>
             <Insets />
          </VBox.margin>
          <children>
-            <VBox prefHeight="432.0" prefWidth="172.0" style="-fx-background-color: #F3F5F9;">
+            <VBox prefHeight="432.0" prefWidth="228.0" style="-fx-background-color: #F3F5F9;">
                <children>
                   <HBox alignment="BOTTOM_LEFT" prefHeight="9.0" prefWidth="130.0" spacing="5.0">
                      <children>
@@ -80,9 +80,9 @@
                   <DropShadow />
                </effect>
             </VBox>
-            <HBox prefHeight="360.0" prefWidth="642.0">
+            <HBox prefHeight="392.0" prefWidth="700.0">
                <children>
-                  <VBox prefHeight="392.0" prefWidth="478.0">
+                  <VBox prefHeight="392.0" prefWidth="485.0">
                      <children>
                         <Label prefHeight="36.0" prefWidth="65.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="CARRERAS" />
                         <ListView fx:id="lstCarreras" prefHeight="356.0" prefWidth="474.0" />
@@ -91,7 +91,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox prefHeight="357.0" prefWidth="147.0" style="-fx-background-color: #F3F5F9;">
+                  <VBox prefHeight="357.0" prefWidth="134.0" style="-fx-background-color: #F3F5F9;">
                      <children>
                         <Label prefHeight="36.0" prefWidth="119.0" style="-fx-text-fill: #6E6E6E; -fx-font-weight: bold;" text="FILTRAR CARRERAS" />
                         <Button maxHeight="1.0" minHeight="1.0" mnemonicParsing="false" prefHeight="1.0" prefWidth="149.0" style="-fx-background-color: #999999;">
