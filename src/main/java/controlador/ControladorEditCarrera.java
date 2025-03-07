@@ -146,7 +146,11 @@ public class ControladorEditCarrera implements Initializable {
                             // Cierra la ventana actual después de mostrar la alerta
                             Stage stage = (Stage) nameField.getScene().getWindow();
                             stage.close();
-                            cc.optTodas.isSelected();
+                            if (cc.optTodas.isSelected()) {
+                                cc.encolaLeerCarreras();
+                            }else {
+                                cc.optTodas.selectedProperty().setValue(true);
+                            }
                         } else {
                             showAlert("Error", "Error al crear la carrera. Código: " + response.code());
                         }
