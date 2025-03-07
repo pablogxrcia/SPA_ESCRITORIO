@@ -2,6 +2,7 @@ package controlador;
 
 import api.RepositoryCarreras;
 import api.ServiceBorrarCarrera;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +38,10 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ControladorCarrera implements Initializable {
+    Dotenv dotenv = Dotenv.load();
+    String ip = dotenv.get("IP");
+    String port = dotenv.get("PORT");
+
     RepositoryCarreras repository = new RepositoryCarreras();
 
     @FXML
@@ -193,7 +198,7 @@ public class ControladorCarrera implements Initializable {
     private void eliminarCarrera(Carrera carrera) {
         // Aquí puedes agregar la lógica para eliminar la carrera
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.50.143:3000/api/")
+                .baseUrl("http://"+ip+port+"/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

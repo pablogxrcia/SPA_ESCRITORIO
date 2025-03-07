@@ -2,6 +2,7 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.cdimascio.dotenv.Dotenv;
 import modelo.UserLogin;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -17,7 +18,11 @@ import java.util.List;
 import java.util.Map;
 
 public class RepositoryUsers {
-    String baseUrl = "http://18.206.203.108:3000/api/users/";
+    Dotenv dotenv = Dotenv.load();
+    String ip = dotenv.get("IP");
+    String port = dotenv.get("PORT");
+
+    String baseUrl = "http://"+ip+port+"/api/users/";
     Gson gson = new GsonBuilder()
             .setLenient()
             .create();
@@ -48,6 +53,6 @@ public class RepositoryUsers {
     public Call<UserLogin>callLogin;
 
     public List<Cookie> getCookies() {
-        return cookieStore.get("18.206.203.108");
+        return cookieStore.get(ip);
     }
 }

@@ -2,6 +2,7 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.cdimascio.dotenv.Dotenv;
 import modelo.Carrera;
 import modelo.Carreras;
 import retrofit2.Call;
@@ -9,7 +10,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RepositoryCarreras {
-    String baseUrl = "http://18.206.203.108/api/races/";
+
+    Dotenv dotenv = Dotenv.load();
+    String ip = dotenv.get("IP");
+    String port = dotenv.get("PORT");
+
+    String baseUrl = "http://"+ip+port+"/api/races/";
     Gson gson = new GsonBuilder()
             .setLenient()
             .create();
