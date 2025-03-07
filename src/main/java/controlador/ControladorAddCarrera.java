@@ -3,6 +3,7 @@ package controlador;
 import api.ServiceCrearCarrera;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,10 +41,18 @@ public class ControladorAddCarrera implements Initializable {
     private ServiceCrearCarrera raceApi;
     private String authToken; // Campo para almacenar el token
 
+    private ObservableList<Carrera> carreras;
+
+    private ListView<Carrera> lstCarreras;
+
     // Método para establecer el token
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
         System.out.println("Token recibido en ControladorAddCarrera: " + authToken); // Verificar que el token se recibe
+    }
+    public void setObservable(ObservableList<Carrera> carreras, ListView<Carrera> lstCarreras) {
+        this.carreras = carreras;
+        this.lstCarreras = lstCarreras;
     }
 
     @FXML
@@ -107,6 +116,8 @@ public class ControladorAddCarrera implements Initializable {
                 public void onResponse(Call<Carrera> call, Response<Carrera> response) {
                     Platform.runLater(() -> {
                         if (response.isSuccessful()) {
+                            carreras.add(race);
+                            lstCarreras.setItems(FXCollections.observableArrayList(carreras));
                             showAlert("Éxito", "Carrera creada exitosamente.");
                             // Cierra la ventana actual después de mostrar la alerta
                             Stage stage = (Stage) nameField.getScene().getWindow();
@@ -155,7 +166,7 @@ public class ControladorAddCarrera implements Initializable {
         sportComboBox.setItems(FXCollections.observableArrayList("running", "trailRunning", "cycling"));
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://44.203.132.49:3000/api/")
+                .baseUrl("http://192.168.50.143:3000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
