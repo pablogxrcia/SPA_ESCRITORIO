@@ -56,7 +56,7 @@ public class ControladorAddCarrera implements Initializable {
     }
 
     @FXML
-    void añadirArchivoGpx(ActionEvent event) {
+    void anadirArchivoGpx(ActionEvent event) {
 
     }
 
