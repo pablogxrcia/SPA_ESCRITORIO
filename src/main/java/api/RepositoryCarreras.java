@@ -2,6 +2,7 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import modelo.Carrera;
 import modelo.Carreras;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -21,9 +22,11 @@ public class RepositoryCarreras {
     public ServiceLeerRunning serviceLeerRunning = retrofit.create(ServiceLeerRunning.class);
     public ServiceLeerTrailRunning serviceLeerTrailRunning = retrofit.create(ServiceLeerTrailRunning.class);
     public ServiceLeerCycling serviceLeerCycling = retrofit.create(ServiceLeerCycling.class);
+    public ServiceLeerCarreraById serviceLeerCarreraById = retrofit.create(ServiceLeerCarreraById.class);
 
     public Call<Carreras> callLeerCarreras;
     public Call<Carreras> callLeerRunning;
     public Call<Carreras> callLeerTrailRunning;
     public Call<Carreras> callLeerCycling;
+    public Call<Carrera> callLeerCarreraById;
 }

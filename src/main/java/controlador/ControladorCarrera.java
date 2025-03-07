@@ -38,7 +38,6 @@ import java.util.ResourceBundle;
 
 public class ControladorCarrera implements Initializable {
     RepositoryCarreras repository = new RepositoryCarreras();
-    Cookie cookie;
 
     @FXML
     private ImageView imgAddCarrera, imgCerrar, imgLogo, imgUsers;
