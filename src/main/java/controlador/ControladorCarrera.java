@@ -46,7 +46,7 @@ public class ControladorCarrera implements Initializable {
     private ListView<Carrera> lstCarreras;
 
     @FXML
-    private RadioButton optCiclismo, optRunning, optTodas, optTrailRunning;
+    public RadioButton optCiclismo, optRunning, optTodas, optTrailRunning;
 
     @FXML
     private HBox hboxAddCarrera, hboxCerrar, hboxUsers;
@@ -175,6 +175,7 @@ public class ControladorCarrera implements Initializable {
             ControladorEditCarrera cac=fxmlLoader.getController();
             if(cac!=null){
                 cac.setId(carrera.get_id());
+                cac.setAuthToken(authToken);
             }
 
             Scene sc=new Scene(root);

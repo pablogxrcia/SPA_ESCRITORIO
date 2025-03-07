@@ -146,6 +146,7 @@ public class ControladorEditCarrera implements Initializable {
                             // Cierra la ventana actual después de mostrar la alerta
                             Stage stage = (Stage) nameField.getScene().getWindow();
                             stage.close();
+                            cc.optTodas.isSelected();
                         } else {
                             showAlert("Error", "Error al crear la carrera. Código: " + response.code());
                         }
@@ -176,7 +177,7 @@ public class ControladorEditCarrera implements Initializable {
         return sport.equals("running") || sport.equals("trailRunning") || sport.equals("cycling");
     }
 
-
+    private ControladorCarrera cc;
     private String authToken;
     private String id;
     private Carrera carrera;
@@ -189,6 +190,10 @@ public class ControladorEditCarrera implements Initializable {
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
         System.out.println("Token recibido en ControladorAddCarrera: " + authToken); // Verificar que el token se recibe
+    }
+
+    public void setControladorCarrera(ControladorCarrera controladorCarrera) {
+        cc = controladorCarrera;
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
