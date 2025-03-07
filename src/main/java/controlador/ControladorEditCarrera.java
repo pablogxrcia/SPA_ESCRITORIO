@@ -233,8 +233,9 @@ public class ControladorEditCarrera implements Initializable {
         this.lblIdCarrera.setText("ID CARRERA: "+id);
         this.nameField.setText(carrera.getName());
         this.sportComboBox.setValue(carrera.getSport());
-        //String[] date = carrera.getDate().split("-");
-        //this.datePicker.setValue(LocalDate.of(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2])));
+        String[] date = carrera.getDate().split("-");
+        date[2] = date[2].substring(0,2);
+        this.datePicker.setValue(LocalDate.of(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2])));
         this.locationField.setText(carrera.getLocation());
         this.distanceField.setText(String.valueOf(carrera.getDistance()));
         this.maxParticipantsField.setText(String.valueOf(carrera.getMaxParticipants()));
