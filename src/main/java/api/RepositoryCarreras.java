@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RepositoryCarreras {
-    String baseUrl = "http://192.168.50.143:3000/api/races/";
+    String baseUrl = "http://18.206.203.108/api/races/";
     Gson gson = new GsonBuilder()
             .setLenient()
             .create();
@@ -23,10 +23,13 @@ public class RepositoryCarreras {
     public ServiceLeerTrailRunning serviceLeerTrailRunning = retrofit.create(ServiceLeerTrailRunning.class);
     public ServiceLeerCycling serviceLeerCycling = retrofit.create(ServiceLeerCycling.class);
     public ServiceLeerCarreraById serviceLeerCarreraById = retrofit.create(ServiceLeerCarreraById.class);
+    public ServiceEditarCarrera serviceEditarCarrera = retrofit.create(ServiceEditarCarrera.class);
 
     public Call<Carreras> callLeerCarreras;
     public Call<Carreras> callLeerRunning;
     public Call<Carreras> callLeerTrailRunning;
     public Call<Carreras> callLeerCycling;
     public Call<Carrera> callLeerCarreraById;
+
+    public Call<Carrera> callEditarCarrera;
 }
