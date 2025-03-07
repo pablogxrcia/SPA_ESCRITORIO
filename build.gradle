@@ -21,6 +21,13 @@ javafx {
     version = "23"
     modules = ['javafx.base','javafx.controls',  'javafx.swing', 'javafx.graphics','javafx.fxml']
 }
+mainClassName = 'main.Main'
+jar {
+    duplicatesStrategy 'exclude' //Excluye duplicados en ficheros de configuración
+    manifest { //Genera el fichero MANIFEST.MF que hay dentro del jar
+        attributes 'Main-Class': mainClassName // Clase principal del proyecto
+    }
+}
 
 dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
@@ -30,6 +37,8 @@ dependencies {
     //classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.2"
 
 }
+
+
 
 application {
     mainClass = 'main.Main'
