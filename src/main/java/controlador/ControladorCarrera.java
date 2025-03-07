@@ -176,6 +176,7 @@ public class ControladorCarrera implements Initializable {
             if(cac!=null){
                 cac.setId(carrera.get_id());
                 cac.setAuthToken(authToken);
+                cac.setControladorCarrera(this);
             }
 
             Scene sc=new Scene(root);
