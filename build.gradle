@@ -34,6 +34,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'  // Obtener Cookies
+
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0' // archivo env
     //classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.2"
 
 }

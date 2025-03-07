@@ -1,6 +1,7 @@
 package controlador;
 
 import api.ServiceCrearCarrera;
+import io.github.cdimascio.dotenv.Dotenv;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +31,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControladorAddCarrera implements Initializable {
+    Dotenv dotenv = Dotenv.load();
+    String ip = dotenv.get("IP");
+    String port = dotenv.get("PORT");
+
     @FXML
     private TextField nameField;
     @FXML private ComboBox<String> sportComboBox;
@@ -186,7 +191,7 @@ public class ControladorAddCarrera implements Initializable {
         sportComboBox.setItems(FXCollections.observableArrayList("running", "trailRunning", "cycling"));
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://18.206.203.108/api/")
+                .baseUrl("http://"+ip+port+"/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
