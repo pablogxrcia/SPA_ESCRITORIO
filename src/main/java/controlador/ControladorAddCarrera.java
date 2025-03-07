@@ -60,7 +60,7 @@ public class ControladorAddCarrera implements Initializable {
     }
 
     @FXML
-    void añadirArchivoGpx(ActionEvent event) {
+    void buscarArchivoGpx(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
 
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos GPX (*.gpx)", "*.gpx");
