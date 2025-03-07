@@ -188,7 +188,6 @@ public class ControladorCarrera implements Initializable {
 
 
     private void eliminarCarrera(Carrera carrera) {
-        System.out.println("Eliminando carrera: " + carrera.getName());
         // Aquí puedes agregar la lógica para eliminar la carrera
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.50.143:3000/api/")
@@ -196,10 +195,18 @@ public class ControladorCarrera implements Initializable {
                 .build();
 
         serviceBorrarCarrera = retrofit.create(ServiceBorrarCarrera.class);
-        serviceBorrarCarrera.borrarCarrera(carrera.get_id()).enqueue(new Callback<Carreras>() {
+        serviceBorrarCarrera.borrarCarrera("Bearer " + authToken, carrera.get_id()).enqueue(new Callback<Carreras>() {
             @Override
             public void onResponse(Call<Carreras> call, Response<Carreras> response) {
                 System.out.println("Carrera borrada: " + carrera.getName());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Borrar Carrera");
+                alert.setHeaderText(null);
+                alert.setContentText("Carrera borrada exitosamente"+response.code());
+                alert.showAndWait();
+                // Cierra la ventana actual después de mostrar la alerta
+                Stage stage = (Stage) optCiclismo.getScene().getWindow();
+                stage.close();
             }
 
             @Override
