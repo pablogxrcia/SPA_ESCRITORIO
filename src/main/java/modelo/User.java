@@ -7,14 +7,16 @@ public class User {
     String role;
     String avatar;
     int age;
+    String registrationDate;
 
-    public User(String id, String email, String name, String role, String avatar, int age) {
+    public User(String id, String email, String name, String role, String avatar, int age, String registrationDate) {
         this.id=id;
         this.email=email;
         this.name=name;
         this.role=role;
         this.avatar=avatar;
         this.age=age;
+        this.registrationDate=registrationDate;
     }
 
     public String getId() {

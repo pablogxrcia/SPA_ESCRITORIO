@@ -8,9 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modelo.Carrera;
 import retrofit2.Call;
@@ -19,10 +21,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControladorAddCarrera implements Initializable {
@@ -57,7 +61,18 @@ public class ControladorAddCarrera implements Initializable {
 
     @FXML
     void añadirArchivoGpx(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Archivos GPX (*.gpx)", "*.gpx");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
+
+        if (selectedFile != null) {
+            System.out.println("Archivo seleccionado: " + selectedFile.getAbsolutePath());
+        } else {
+            System.out.println("No se seleccionó ningún archivo.");
+        }
     }
 
     @FXML
