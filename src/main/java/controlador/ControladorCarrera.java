@@ -38,7 +38,6 @@ import java.util.ResourceBundle;
 
 public class ControladorCarrera implements Initializable {
     RepositoryCarreras repository = new RepositoryCarreras();
-    Cookie cookie;
 
     @FXML
     private ImageView imgAddCarrera, imgCerrar, imgLogo, imgUsers;
@@ -47,7 +46,7 @@ public class ControladorCarrera implements Initializable {
     private ListView<Carrera> lstCarreras;
 
     @FXML
-    private RadioButton optCiclismo, optRunning, optTodas, optTrailRunning;
+    public RadioButton optCiclismo, optRunning, optTodas, optTrailRunning;
 
     @FXML
     private HBox hboxAddCarrera, hboxCerrar, hboxUsers;
@@ -176,6 +175,8 @@ public class ControladorCarrera implements Initializable {
             ControladorEditCarrera cac=fxmlLoader.getController();
             if(cac!=null){
                 cac.setId(carrera.get_id());
+                cac.setAuthToken(authToken);
+                cac.setControladorCarrera(this);
             }
 
             Scene sc=new Scene(root);

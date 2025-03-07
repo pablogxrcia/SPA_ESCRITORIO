@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RepositoryUsers {
-    String baseUrl = "http://18.206.203.108/api/users/";
+    String baseUrl = "http://18.206.203.108:3000/api/users/";
     Gson gson = new GsonBuilder()
             .setLenient()
             .create();

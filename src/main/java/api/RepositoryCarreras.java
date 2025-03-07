@@ -22,12 +22,14 @@ public class RepositoryCarreras {
     public ServiceLeerRunning serviceLeerRunning = retrofit.create(ServiceLeerRunning.class);
     public ServiceLeerTrailRunning serviceLeerTrailRunning = retrofit.create(ServiceLeerTrailRunning.class);
     public ServiceLeerCycling serviceLeerCycling = retrofit.create(ServiceLeerCycling.class);
-
-    public RaceService serviceEditar = retrofit.create(RaceService.class);
+    public ServiceLeerCarreraById serviceLeerCarreraById = retrofit.create(ServiceLeerCarreraById.class);
+    public ServiceEditarCarrera serviceEditarCarrera = retrofit.create(ServiceEditarCarrera.class);
 
     public Call<Carreras> callLeerCarreras;
     public Call<Carreras> callLeerRunning;
     public Call<Carreras> callLeerTrailRunning;
     public Call<Carreras> callLeerCycling;
+    public Call<Carrera> callLeerCarreraById;
+
     public Call<Carrera> callEditarCarrera;
 }
