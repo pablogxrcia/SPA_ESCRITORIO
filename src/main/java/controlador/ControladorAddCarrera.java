@@ -186,7 +186,7 @@ public class ControladorAddCarrera implements Initializable {
         sportComboBox.setItems(FXCollections.observableArrayList("running", "trailRunning", "cycling"));
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.50.143:3000/api/")
+                .baseUrl("http://18.206.203.108/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

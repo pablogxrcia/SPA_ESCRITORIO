@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RepositoryUsers {
-    String baseUrl = "http://192.168.50.143:3000/api/users/";
+    String baseUrl = "http://18.206.203.108/api/users/";
     Gson gson = new GsonBuilder()
             .setLenient()
             .create();
@@ -48,6 +48,6 @@ public class RepositoryUsers {
     public Call<UserLogin>callLogin;
 
     public List<Cookie> getCookies() {
-        return cookieStore.get("192.168.50.143");
+        return cookieStore.get("18.206.203.108");
     }
 }
