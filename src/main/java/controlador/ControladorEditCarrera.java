@@ -148,8 +148,12 @@ public class ControladorEditCarrera implements Initializable {
                             stage.close();
                             if (cc.optTodas.isSelected()) {
                                 cc.encolaLeerCarreras();
+                            }if (cc.optRunning.isSelected()) {{
+                                cc.encolaLeerRunning();}
+                            }if (cc.optTrailRunning.isSelected()) {
+                                cc.encolaLeerTrailRunning();
                             }else {
-                                cc.optTodas.selectedProperty().setValue(true);
+                                cc.encolaLeerCycling();
                             }
                         } else {
                             showAlert("Error", "Error al crear la carrera. Código: " + response.code());
@@ -188,6 +192,7 @@ public class ControladorEditCarrera implements Initializable {
     private RepositoryCarreras repository = new RepositoryCarreras();
 
     public void setId(String id) {
+        System.out.println("ID: "+id);
         this.id = id;
     }
 
@@ -196,12 +201,7 @@ public class ControladorEditCarrera implements Initializable {
         System.out.println("Token recibido en ControladorAddCarrera: " + authToken); // Verificar que el token se recibe
     }
 
-    public void setControladorCarrera(ControladorCarrera controladorCarrera) {
-        cc = controladorCarrera;
-    }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        sportComboBox.setItems(FXCollections.observableArrayList("running", "trailRunning", "cycling"));
+    public void inicializarControles() {
         repository.callLeerCarreraById = repository.serviceLeerCarreraById.obtenerCarreraPorId(id);
         repository.callLeerCarreraById.enqueue(new Callback<Carrera>() {
 
@@ -210,6 +210,19 @@ public class ControladorEditCarrera implements Initializable {
                 Platform.runLater(() -> {
                     if (response.isSuccessful()) {
                         carrera = response.body();
+
+                        lblIdCarrera.setText("ID CARRERA: "+id);
+                        nameField.setText(carrera.getName());
+                        sportComboBox.setValue(carrera.getSport());
+                        String[] date = carrera.getDate().split("-");
+                        date[2] = date[2].substring(0,2);
+                        datePicker.setValue(LocalDate.of(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2])));
+                        locationField.setText(carrera.getLocation());
+                        tourField.setText(carrera.getTour());
+                        distanceField.setText(String.valueOf(carrera.getDistance()));
+                        maxParticipantsField.setText(String.valueOf(carrera.getMaxParticipants()));
+                        unevennessField.setText(String.valueOf(carrera.getUnevenness()));
+                        qualifyingTimeField.setText(carrera.getQualifyingTime());
                     } else {
                         Alert alertaLeer = new Alert(Alert.AlertType.ERROR);
                         alertaLeer.setTitle("Error");
@@ -229,18 +242,15 @@ public class ControladorEditCarrera implements Initializable {
                 alertaLeer.showAndWait();
             }
         });
+    }
 
-        this.lblIdCarrera.setText("ID CARRERA: "+id);
-        this.nameField.setText(carrera.getName());
-        this.sportComboBox.setValue(carrera.getSport());
-        String[] date = carrera.getDate().split("-");
-        date[2] = date[2].substring(0,2);
-        this.datePicker.setValue(LocalDate.of(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2])));
-        this.locationField.setText(carrera.getLocation());
-        this.distanceField.setText(String.valueOf(carrera.getDistance()));
-        this.maxParticipantsField.setText(String.valueOf(carrera.getMaxParticipants()));
-        this.unevennessField.setText(String.valueOf(carrera.getUnevenness()));
-        this.qualifyingTimeField.setText(carrera.getQualifyingTime());
+    public void setControladorCarrera(ControladorCarrera controladorCarrera) {
+        cc = controladorCarrera;
+    }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("Has entrado a editar carrera");
+        sportComboBox.setItems(FXCollections.observableArrayList("running", "trailRunning", "cycling"));
     }
 
 }
