@@ -98,11 +98,16 @@ public class Controlador implements Initializable {
                         if (response.body().getUser().getRole().equals("admin")) {
                             // Obtener cookies
                             List<Cookie> cookies = repository.getCookies();
-                            for (Cookie cookie : cookies) {
-                                if (cookie.name().equals("token")) { // Suponiendo que el token se llama "token"
-                                    authToken = cookie.value(); // Guardar el token
-                                    System.out.println("Token obtenido: " + authToken);
+                            if (cookies != null) {
+                                for (Cookie cookie : cookies) {
+                                    System.out.println("Cookie: " + cookie.name() + " = " + cookie.value());
+                                    if (cookie.name().equals("token")) { // Suponiendo que el token se llama "token"
+                                        authToken = cookie.value(); // Guardar el token
+                                        System.out.println("Token obtenido: " + authToken);
+                                    }
                                 }
+                            } else {
+                                System.out.println("No se recibieron cookies.");
                             }
                             abrirVenanaAdministrador();
                         } else {

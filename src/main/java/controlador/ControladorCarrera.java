@@ -174,20 +174,24 @@ public class ControladorCarrera implements Initializable {
         System.out.println("Editando carrera: " + carrera.getName());
         // Aquí puedes agregar la lógica para editar la carrera
         try {
-            FXMLLoader fxmlLoader=FXMLLoader.load(getClass().getResource("/vista/addCarrera.fxml"));
-            Parent root=fxmlLoader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("vista/editCarrera.fxml"));
+            Parent root = loader.load();
 
-            ControladorEditCarrera cac=fxmlLoader.getController();
+            System.out.println("ID: "+carrera.get_id());
+            ControladorEditCarrera cac= loader.getController();
+            System.out.println("ID: "+carrera.get_id());
             if(cac!=null){
+                System.out.println("ID: "+carrera.get_id());
                 cac.setId(carrera.get_id());
                 cac.setAuthToken(authToken);
                 cac.setControladorCarrera(this);
+                cac.inicializarControles();
             }
 
-            Scene sc=new Scene(root);
-            Stage st=new Stage();
-            st.setScene(sc);
-            st.show();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Editar carrera");
+            stage.show();
         } catch (IOException e) {
             System.out.println("no se ha podido cargar la ventana");
         }

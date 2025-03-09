@@ -32,13 +32,14 @@ public class RepositoryUsers {
             .cookieJar(new CookieJar() {
                 @Override
                 public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                    System.out.println("Cookies recibidas para " + url.host() + ": " + cookies); // Depuración
                     cookieStore.put(url.host(), cookies);
                 }
 
                 @Override
                 public List<Cookie> loadForRequest(HttpUrl url) {
                     List<Cookie> cookies = cookieStore.get(url.host());
-                    return cookies != null ? cookies : new ArrayList<>();
+                    return cookies != null ? cookies : new ArrayList<>(); // Devuelve una lista vacía si no hay cookies
                 }
             })
             .build();
