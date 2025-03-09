@@ -8,5 +8,8 @@ import retrofit2.http.Path;
 
 public interface ServiceBorrarCarrera {
     @DELETE("races/{id}")
-    Call<Carreras> borrarCarrera(@Header("Authorization") String token, @Path("id") String id);
+    Call<Carreras> borrarCarrera(
+            @Header("Authorization") String authToken,
+            @Path("id") String id
+    );
 }

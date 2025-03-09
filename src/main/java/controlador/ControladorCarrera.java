@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import modelo.Carrera;
 import modelo.Carreras;
@@ -200,33 +201,74 @@ public class ControladorCarrera implements Initializable {
 
 
     private void eliminarCarrera(Carrera carrera) {
-        // Aquí puedes agregar la lógica para eliminar la carrera
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://"+ip+port+"/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        // Mostrar una alerta de confirmación
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar eliminación");
+        alert.setHeaderText("¿Estás seguro de que quieres eliminar la carrera?");
+        alert.setContentText("Carrera: " + carrera.getName());
 
-        serviceBorrarCarrera = retrofit.create(ServiceBorrarCarrera.class);
-        serviceBorrarCarrera.borrarCarrera("Bearer " + authToken, carrera.get_id()).enqueue(new Callback<Carreras>() {
-            @Override
-            public void onResponse(Call<Carreras> call, Response<Carreras> response) {
-                System.out.println("Carrera borrada: " + carrera.getName());
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Borrar Carrera");
-                alert.setHeaderText(null);
-                alert.setContentText("Carrera borrada exitosamente"+response.code());
-                alert.showAndWait();
-                // Cierra la ventana actual después de mostrar la alerta
-                Stage stage = (Stage) optCiclismo.getScene().getWindow();
-                stage.close();
-            }
+        // Obtener la respuesta del usuario
+        Optional<ButtonType> result = alert.showAndWait();
 
-            @Override
-            public void onFailure(Call<Carreras> call, Throwable t) {
-                Platform.runLater(() -> new Alert(Alert.AlertType.ERROR, "Error al borrar la carrera: " + t.getMessage()).showAndWait());
-            }
+        // Si el usuario confirma, proceder con la eliminación
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Configurar Retrofit para la petición DELETE
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://" + ip + port + "/api/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        });
+            serviceBorrarCarrera = retrofit.create(ServiceBorrarCarrera.class);
+
+            // Realizar la petición DELETE a la API
+            serviceBorrarCarrera.borrarCarrera("Bearer " + authToken, carrera.get_id()).enqueue(new Callback<Carreras>() {
+                @Override
+                public void onResponse(Call<Carreras> call, Response<Carreras> response) {
+                    if (response.isSuccessful()) {
+                        // Mostrar mensaje de éxito
+                        Platform.runLater(() -> {
+                            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                            successAlert.setTitle("Carrera eliminada");
+                            successAlert.setHeaderText(null);
+                            successAlert.setContentText("Carrera eliminada correctamente: " + carrera.getName());
+                            successAlert.showAndWait();
+
+                            // Actualizar la lista de carreras después de la eliminación
+                            actualizarListaCarreras();
+                        });
+                    } else {
+                        // Manejar errores de la API
+                        Platform.runLater(() -> {
+                            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                            errorAlert.setTitle("Error al eliminar la carrera");
+                            errorAlert.setHeaderText(null);
+                            errorAlert.setContentText("Código de error: " + response.code() + "\nMensaje: " + response.message());
+                            errorAlert.showAndWait();
+                        });
+                    }
+                }
+                private void actualizarListaCarreras() {
+                    // Llamar al método que carga las carreras desde la API
+                    repository.callLeerCarreras = repository.serviceLeerCarreras.obtenerCarreras();
+                    encolaLeerCarreras();
+                }
+
+                @Override
+                public void onFailure(Call<Carreras> call, Throwable t) {
+                    // Manejar errores de red
+                    Platform.runLater(() -> {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                        errorAlert.setTitle("Error de red");
+                        errorAlert.setHeaderText(null);
+                        errorAlert.setContentText("Error al conectar con el servidor: " + t.getMessage());
+                        errorAlert.showAndWait();
+                    });
+                }
+            });
+        } else {
+            // Si el usuario cancela, no hacer nada
+            System.out.println("Eliminación cancelada por el usuario.");
+        }
     }
 
     private void descargarCarrera(Carrera carrera) {
@@ -333,12 +375,19 @@ public class ControladorCarrera implements Initializable {
             // Obtener el controlador de la ventana de añadir carrera
             ControladorAddCarrera controladorAddCarrera = loader.getController();
             controladorAddCarrera.setAuthToken(authToken); // Pasar el token al controlador
-            controladorAddCarrera.setObservable(carreras,lstCarreras); // Pasar la lista de carreras al controlador
+            controladorAddCarrera.setObservable(carreras, lstCarreras); // Pasar la lista de carreras al controlador
 
+            // Crear una nueva ventana (Stage)
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Añadir Carrera");
-            stage.show();
+
+            // Hacer que la ventana sea modal
+            stage.initModality(Modality.APPLICATION_MODAL); // Bloquea la ventana principal
+            stage.setResizable(false); // Opcional: Hacer que la ventana no sea redimensionable
+
+            // Mostrar la ventana y esperar hasta que se cierre
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -34,7 +34,7 @@ set APP_HOME=%DIRNAME%..
 for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 
 @rem Add default JVM options here. You can also use JAVA_OPTS and APP_ESCRITORIO_OPTS to pass JVM options to this script.
-set DEFAULT_JVM_OPTS="--module-path" "C:\Users\Usuario\.jdks\openjdk-21/lib" "--add-modules" "javafx.controls,javafx.fxml"
+set DEFAULT_JVM_OPTS="--module-path" "C:\Users\paabl\.jdks\openjdk-21/lib" "--add-modules" "javafx.controls,javafx.fxml"
 
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome
@@ -68,7 +68,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\appEscritorio.jar;%APP_HOME%\lib\converter-gson-2.11.0.jar;%APP_HOME%\lib\retrofit-2.11.0.jar;%APP_HOME%\lib\javafx-fxml-23-win.jar;%APP_HOME%\lib\javafx-controls-23-win.jar;%APP_HOME%\lib\javafx-swing-23-win.jar;%APP_HOME%\lib\javafx-graphics-23-win.jar;%APP_HOME%\lib\javafx-base-23-win.jar;%APP_HOME%\lib\okhttp-3.14.9.jar;%APP_HOME%\lib\gson-2.10.1.jar;%APP_HOME%\lib\okio-1.17.2.jar
+set CLASSPATH=%APP_HOME%\lib\appEscritorio.jar;%APP_HOME%\lib\converter-gson-2.11.0.jar;%APP_HOME%\lib\retrofit-2.11.0.jar;%APP_HOME%\lib\okhttp-4.9.1.jar;%APP_HOME%\lib\dotenv-java-3.0.0.jar;%APP_HOME%\lib\javafx-fxml-23-win.jar;%APP_HOME%\lib\javafx-controls-23-win.jar;%APP_HOME%\lib\javafx-swing-23-win.jar;%APP_HOME%\lib\javafx-graphics-23-win.jar;%APP_HOME%\lib\javafx-base-23-win.jar;%APP_HOME%\lib\gson-2.10.1.jar;%APP_HOME%\lib\okio-jvm-2.8.0.jar;%APP_HOME%\lib\kotlin-stdlib-1.4.10.jar;%APP_HOME%\lib\kotlin-stdlib-common-1.4.10.jar;%APP_HOME%\lib\annotations-13.0.jar
 
 
 @rem Execute appEscritorio
