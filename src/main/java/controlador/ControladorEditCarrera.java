@@ -3,7 +3,6 @@ package controlador;
 import api.RepositoryCarreras;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,8 +16,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -56,6 +57,18 @@ public class ControladorEditCarrera implements Initializable {
     @FXML
     private Label lblIdCarrera;
 
+    private ControladorCarrera cc;
+    private String authToken;
+    private String id;
+    private Carrera carrera;
+    private RepositoryCarreras repository = new RepositoryCarreras();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("Has entrado a editar carrera");
+        sportComboBox.setItems(FXCollections.observableArrayList("running", "trailRunning", "cycling"));
+    }
+
     @FXML
     void anadirArchivoGpx(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -79,7 +92,6 @@ public class ControladorEditCarrera implements Initializable {
         stage.close();
     }
 
-    // ACTUALIZAR CARRERA
     @FXML
     void handleCreateRace(ActionEvent event) {
         try {
@@ -117,10 +129,12 @@ public class ControladorEditCarrera implements Initializable {
                 return;
             }
 
-            // Formatear la fecha sin la hora ni la zona horaria
+            // Formatear la fecha en formato YYYY-MM-DD
             String formattedDate = date.format(DateTimeFormatter.ISO_LOCAL_DATE); // Formato: "2025-05-15"
 
+            // Crear el objeto Carrera con un valor válido para el campo status
             Carrera race = new Carrera(name, sport, formattedDate, location, distance, maxParticipants, unevenness, tour, qualifyingTime);
+            race.setStatus("pending"); // Cambia "Pendiente" por un valor válido, como "pending"
 
             // Depuración: Mostrar los datos que se enviarán al servidor
             System.out.println("Datos enviados al servidor:");
@@ -134,9 +148,10 @@ public class ControladorEditCarrera implements Initializable {
             System.out.println("Desnivel: " + unevenness);
             System.out.println("Recorrido: " + tour);
             System.out.println("Tiempo de calificación: " + qualifyingTime);
+            System.out.println("Estado: " + race.getStatus());
 
             // Incluir el token en la solicitud
-            repository.callEditarCarrera = repository.serviceEditarCarrera.editarCarrera("Bearer " + authToken,id, race);
+            repository.callEditarCarrera = repository.serviceEditarCarrera.editarCarrera("Bearer " + authToken, id, race);
             repository.callEditarCarrera.enqueue(new Callback<Carrera>() {
                 @Override
                 public void onResponse(Call<Carrera> call, Response<Carrera> response) {
@@ -148,15 +163,22 @@ public class ControladorEditCarrera implements Initializable {
                             stage.close();
                             if (cc.optTodas.isSelected()) {
                                 cc.encolaLeerCarreras();
-                            }if (cc.optRunning.isSelected()) {{
-                                cc.encolaLeerRunning();}
-                            }if (cc.optTrailRunning.isSelected()) {
+                            } else if (cc.optRunning.isSelected()) {
+                                cc.encolaLeerRunning();
+                            } else if (cc.optTrailRunning.isSelected()) {
                                 cc.encolaLeerTrailRunning();
-                            }else {
+                            } else {
                                 cc.encolaLeerCycling();
                             }
                         } else {
-                            showAlert("Error", "Error al crear la carrera. Código: " + response.code());
+                            String errorBody = "Sin detalles";
+                            try {
+                                errorBody = response.errorBody() != null ? response.errorBody().string() : "Sin detalles";
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("Error al editar la carrera. Código: " + response.code() + ", Mensaje: " + errorBody);
+                            showAlert("Error", "Error al editar la carrera. Código: " + response.code() + ", Mensaje: " + errorBody);
                         }
                     });
                 }
@@ -170,6 +192,7 @@ public class ControladorEditCarrera implements Initializable {
             showAlert("Error", "Los valores numéricos deben ser positivos y estar en el formato correcto.");
         }
     }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -177,6 +200,7 @@ public class ControladorEditCarrera implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private boolean isValidTimeFormat(String time) {
         return time.matches("^([0-1]?\\d|2[0-3]):([0-5]?\\d):([0-5]?\\d)$");
     }
@@ -185,14 +209,8 @@ public class ControladorEditCarrera implements Initializable {
         return sport.equals("running") || sport.equals("trailRunning") || sport.equals("cycling");
     }
 
-    private ControladorCarrera cc;
-    private String authToken;
-    private String id;
-    private Carrera carrera;
-    private RepositoryCarreras repository = new RepositoryCarreras();
-
     public void setId(String id) {
-        System.out.println("ID: "+id);
+        System.out.println("ID: " + id);
         this.id = id;
     }
 
@@ -204,19 +222,18 @@ public class ControladorEditCarrera implements Initializable {
     public void inicializarControles() {
         repository.callLeerCarreraById = repository.serviceLeerCarreraById.obtenerCarreraPorId(id);
         repository.callLeerCarreraById.enqueue(new Callback<Carrera>() {
-
             @Override
             public void onResponse(Call<Carrera> call, Response<Carrera> response) {
                 Platform.runLater(() -> {
                     if (response.isSuccessful()) {
                         carrera = response.body();
 
-                        lblIdCarrera.setText("ID CARRERA: "+id);
+                        lblIdCarrera.setText("ID CARRERA: " + id);
                         nameField.setText(carrera.getName());
                         sportComboBox.setValue(carrera.getSport());
                         String[] date = carrera.getDate().split("-");
-                        date[2] = date[2].substring(0,2);
-                        datePicker.setValue(LocalDate.of(Integer.parseInt(date[0]),Integer.parseInt(date[1]),Integer.parseInt(date[2])));
+                        date[2] = date[2].substring(0, 2);
+                        datePicker.setValue(LocalDate.of(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2])));
                         locationField.setText(carrera.getLocation());
                         tourField.setText(carrera.getTour());
                         distanceField.setText(String.valueOf(carrera.getDistance()));
@@ -247,10 +264,4 @@ public class ControladorEditCarrera implements Initializable {
     public void setControladorCarrera(ControladorCarrera controladorCarrera) {
         cc = controladorCarrera;
     }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Has entrado a editar carrera");
-        sportComboBox.setItems(FXCollections.observableArrayList("running", "trailRunning", "cycling"));
-    }
-
 }

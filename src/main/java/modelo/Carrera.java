@@ -1,20 +1,21 @@
 package modelo;
-public class Carrera {
-    String _id;
-    String name;
-    String sport;
-    String date;
-    String location;
-    double distance;
-    int maxParticipants;
-    int unevenness;
-    String tour;
-    String qualifyingTime;
-    String status;
-    String created;
 
-    public Carrera(String _id, String name, String sport, String date, String location, double distance, int maxParticipants, int unevenness, String tour, String qualifyingTime, String status, String created) {
-        this._id = _id;
+public class Carrera {
+    private String _id;
+    private String name;
+    private String sport;
+    private String date; // Formato: YYYY-MM-DD
+    private String location;
+    private double distance;
+    private int maxParticipants;
+    private int unevenness;
+    private String tour;
+    private String qualifyingTime;
+    private String status; // Campo status
+    private String created;
+
+    // Constructor
+    public Carrera(String name, String sport, String date, String location, double distance, int maxParticipants, int unevenness, String tour, String qualifyingTime) {
         this.name = name;
         this.sport = sport;
         this.date = date;
@@ -24,24 +25,10 @@ public class Carrera {
         this.unevenness = unevenness;
         this.tour = tour;
         this.qualifyingTime = qualifyingTime;
-        this.status = status;
-        this.created = created;
+        this.status = "open"; // Valor por defecto
     }
 
-    public Carrera(String name, String sport, String formattedDate, String location, double distance, int maxParticipants, int unevenness, String tour, String qualifyingTime) {
-        this.name = name;
-        this.sport = sport;
-        this.date = formattedDate;
-        this.location = location;
-        this.distance = distance;
-        this.maxParticipants = maxParticipants;
-        this.unevenness = unevenness;
-        this.tour = tour;
-        this.qualifyingTime = qualifyingTime;
-        this.status = "Pendiente";
-        this.created = formattedDate;
-    }
-
+    // Getters y setters
     public String get_id() {
         return _id;
     }
